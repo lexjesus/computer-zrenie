@@ -1,9 +1,12 @@
 #ifndef EDITOR_PLUGIN_INTERFACE_H
 #define EDITOR_PLUGIN_INTERFACE_H
 
+
 #include <QObject>
 #include <QString>
-#include "opencv2/opencv_modules.hpp"
+#include "opencv2/opencv.hpp"
+
+
 
 class EditorPluginInterface
 {

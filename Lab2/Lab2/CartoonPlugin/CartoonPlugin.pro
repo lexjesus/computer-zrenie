@@ -18,13 +18,18 @@ SOURCES += \
 HEADERS += \
     cartoon_plugin.h
 
+
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../../opencv/build/x64/vc15/lib/ -lopencv_world455
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../../opencv/build/x64/vc15/lib/ -lopencv_world455d
-
-INCLUDEPATH += $$PWD/../../../../../../opencv/build/include
-DEPENDPATH += $$PWD/../../../../../../opencv/build/include
+INCLUDEPATH += C:\opencv-build\install\include
+LIBS += -L C:\opencv-build\install\x64\mingw\bin\
+libopencv_highgui320 \
+libopencv_core320 \
+libopencv_imgproc320 \
+libopencv_imgcodecs320 \
+libopencv_videoio320 \
+libopencv_video320 \

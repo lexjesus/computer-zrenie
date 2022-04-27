@@ -62,7 +62,7 @@ void MainWindow::createActions()
     saveAsAction = new QAction("&Save as", this);
     saveAsAction->setIcon(QIcon(":/icons/floppy-disk.png"));
     fileMenu->addAction(saveAsAction);
-    exitAction = new QAction("E&xit", this);
+    exitAction = new QAction("&Exit", this);
     exitAction->setIcon(QIcon(":/icons/logout.png"));
     fileMenu->addAction(exitAction);
 
@@ -70,7 +70,7 @@ void MainWindow::createActions()
     zoomInAction->setIcon(QIcon(":/icons/zoom-in.png"));
     viewMenu->addAction(zoomInAction);
     zoomOutAction = new QAction("Zoom Out", this);
-    zoomOutAction->setIcon(QIcon(":/icons/magnifying-glass.png"));
+    zoomOutAction->setIcon(QIcon(":/icons/zoom-out.png"));
     viewMenu->addAction(zoomOutAction);
     prevAction = new QAction("&Previous Image", this);
     prevAction->setIcon(QIcon(":/icons/left.png"));
@@ -108,7 +108,7 @@ void MainWindow::createActions()
     setupShortcuts();
 
     // the edit actions
-    resetAction = new QAction("&Reset Plugins", this);
+    resetAction = new QAction("&ResetPlugin", this);
     editMenu->addAction(resetAction);
     editToolBar->addAction(resetAction);
 
@@ -297,22 +297,22 @@ void MainWindow::loadPlugins()
             editToolBar->addAction(action);
             editPlugins[plugin_ptr->name()] = plugin_ptr;
 
-            if (plugin_ptr->name() == "Affine"){
+            if (plugin_ptr->name() == "AffinePlugin"){
                 action->setShortcut(QKeySequence("Ctrl+1"));
             }
-            if (plugin_ptr->name() == "Cartoon"){
+            if (plugin_ptr->name() == "CartoonPlugin"){
                 action->setShortcut(QKeySequence("Ctrl+2"));
             }
-            if (plugin_ptr->name() == "Erode"){
+            if (plugin_ptr->name() == "ErodePlugin"){
                 action->setShortcut(QKeySequence("Ctrl+3"));
             }
-            if (plugin_ptr->name() == "Rotate"){
+            if (plugin_ptr->name() == "RotatePlugin"){
                 action->setShortcut(QKeySequence("Ctrl+4"));
             }
-            if (plugin_ptr->name() == "Sharpen"){
+            if (plugin_ptr->name() == "SharpenPlugin"){
                 action->setShortcut(QKeySequence("Ctrl+5"));
             }
-            if (plugin_ptr->name() == "Median Filter"){
+            if (plugin_ptr->name() == "MedianFilterPlugin"){
                 action->setShortcut(QKeySequence("Ctrl+6"));
             }
 

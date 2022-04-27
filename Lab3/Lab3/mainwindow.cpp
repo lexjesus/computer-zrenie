@@ -31,45 +31,31 @@ MainWindow::~MainWindow()
 void MainWindow::initUI()
 {
     this->resize(1000, 800);
-    // setup menubar
     fileMenu = menuBar()->addMenu("&File");
-
-    // main area
     QGridLayout *main_layout = new QGridLayout();
 
 #ifdef GAZER_USE_QT_CAMERA
-    QList<QCameraInfo> cameras = QCameraInfo::availableCameras();
-    // I have two cemaras and use the second one here
-    camera = new QCamera(cameras[1]);
-    viewfinder = new QCameraViewfinder(this);
-    QCameraViewfinderSettings settings;
-    // the size must be compatible with the camera
-    settings.setResolution(QSize(800, 600));
-    camera->setViewfinder(viewfinder);
-    camera->setViewfinderSettings(settings);
-    main_layout->addWidget(viewfinder, 0, 0, 12, 1);
+
 #else
     imageScene = new QGraphicsScene(this);
     imageView = new QGraphicsView(imageScene);
     main_layout->addWidget(imageView, 0, 0, 12, 1);
 #endif
 
-    // tools
     QGridLayout *tools_layout = new QGridLayout();
     main_layout->addLayout(tools_layout, 12, 0, 1, 1);
 
     monitorCheckBox = new QCheckBox(this);
-    monitorCheckBox->setText("Monitor On/Off");
+    monitorCheckBox->setText("Monitoring");
     tools_layout->addWidget(monitorCheckBox, 0, 0);
     connect(monitorCheckBox, SIGNAL(stateChanged(int)), this, SLOT(updateMonitorStatus(int)));
 
     recordButton = new QPushButton(this);
-    recordButton->setText("Record");
+    recordButton->setText("Record video");
     tools_layout->addWidget(recordButton, 0, 1, Qt::AlignHCenter);
     tools_layout->addWidget(new QLabel(this), 0, 2);
     connect(recordButton, SIGNAL(clicked(bool)), this, SLOT(recordingStartStop()));
 
-    // list of saved videos
     saved_list = new QListView(this);
     saved_list->setViewMode(QListView::IconMode);
     saved_list->setResizeMode(QListView::Adjust);
@@ -83,7 +69,6 @@ void MainWindow::initUI()
     widget->setLayout(main_layout);
     setCentralWidget(widget);
 
-    // setup status bar
     mainStatusBar = statusBar();
     mainStatusLabel = new QLabel(mainStatusBar);
     mainStatusBar->addPermanentWidget(mainStatusLabel);
@@ -95,14 +80,13 @@ void MainWindow::initUI()
 
 void MainWindow::createActions()
 {
-    // create actions, add them to menus
     cameraInfoAction = new QAction("Camera &Information", this);
     fileMenu->addAction(cameraInfoAction);
     openCameraAction = new QAction("&Open Camera", this);
     fileMenu->addAction(openCameraAction);
     calcFPSAction = new QAction("&Calculate FPS", this);
     fileMenu->addAction(calcFPSAction);
-    exitAction = new QAction("E&xit", this);
+    exitAction = new QAction("&Exit", this);
     fileMenu->addAction(exitAction);
 
     // connect the signals and slots
@@ -135,7 +119,6 @@ void MainWindow::openCamera()
 void MainWindow::openCamera()
 {
     if(capturer != nullptr) {
-        // if a thread is already running, stop it
         capturer->setRunning(false);
         disconnect(capturer, &CaptureThread::frameCaptured, this, &MainWindow::updateFrame);
         disconnect(capturer, &CaptureThread::fpsChanged, this, &MainWindow::updateFPS);
@@ -143,8 +126,7 @@ void MainWindow::openCamera()
         disconnect(capturer, &CaptureThread::updateStatus, this, &MainWindow::showStatus);
         connect(capturer, &CaptureThread::finished, capturer, &CaptureThread::deleteLater);
     }
-    // I am using my second camera whose Index is 2.  Usually, the
-    // Index of the first camera is 0.
+
     int camID = 0;
     capturer = new CaptureThread(camID, data_lock);
     connect(capturer, &CaptureThread::frameCaptured, this, &MainWindow::updateFrame);
